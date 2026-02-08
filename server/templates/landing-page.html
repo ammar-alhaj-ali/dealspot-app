@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>APP_NAME_PLACEHOLDER - Best Deals & Offers</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #FAFAF9;
+        color: #1E293B;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .lang-toggle {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 100;
+        background: #006666;
+        color: #FFFFFF;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'DM Sans', sans-serif;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      }
+      .lang-toggle:hover { background: #005555; transform: translateY(-1px); }
+      body[dir="rtl"] .lang-toggle { right: auto; left: 16px; }
+
+      .hero {
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+        color: #FFFFFF;
+        padding: 80px 24px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 70%, rgba(255,225,28,0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 30%, rgba(0,102,102,0.15) 0%, transparent 50%);
+        pointer-events: none;
+      }
+      .hero-content {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,225,28,0.15);
+        border: 1px solid rgba(255,225,28,0.3);
+        color: #FFE11C;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 24px;
+      }
+      .hero h1 {
+        font-size: 44px;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 16px;
+        letter-spacing: -0.5px;
+      }
+      .hero h1 span { color: #FFE11C; }
+      .hero p {
+        font-size: 18px;
+        color: rgba(255,255,255,0.7);
+        max-width: 500px;
+        margin: 0 auto 36px;
+      }
+      .hero-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-primary {
+        background: #006666;
+        color: #FFF;
+      }
+      .btn-primary:hover { background: #005555; transform: translateY(-1px); }
+      .btn-secondary {
+        background: rgba(255,225,28,0.15);
+        color: #FFE11C;
+        border: 1px solid rgba(255,225,28,0.3);
+      }
+      .btn-secondary:hover { background: rgba(255,225,28,0.25); }
+
+      .stats-bar {
+        background: #FFFFFF;
+        border-bottom: 1px solid #E2E8F0;
+        padding: 20px 24px;
+      }
+      .stats-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        gap: 48px;
+        flex-wrap: wrap;
+      }
+      .stat { text-align: center; }
+      .stat-value { font-size: 28px; font-weight: 700; color: #006666; }
+      .stat-label { font-size: 13px; color: #64748B; font-weight: 500; }
+
+      .section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 60px 24px;
+      }
+      .section-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .section-header h2 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #0F172A;
+      }
+      .section-header p {
+        font-size: 16px;
+        color: #64748B;
+      }
+
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .category-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 14px;
+        padding: 24px;
+        text-align: center;
+        transition: all 0.2s;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+      }
+      .category-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      }
+      .cat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 24px;
+      }
+      .cat-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+      .cat-count { font-size: 12px; color: #64748B; }
+
+      .offers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+      }
+      .offer-card {
+        background: #FFFFFF;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #E2E8F0;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+      .offer-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      }
+      .offer-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        position: relative;
+      }
+      .offer-img-wrap {
+        position: relative;
+      }
+      .offer-discount {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #FFE11C;
+        color: #1E293B;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      body[dir="rtl"] .offer-discount { left: auto; right: 12px; }
+      .offer-body {
+        padding: 16px;
+      }
+      .offer-company-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .offer-logo {
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+      }
+      .offer-company {
+        font-size: 13px;
+        color: #64748B;
+        font-weight: 500;
+      }
+      .offer-title {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        line-height: 1.3;
+      }
+      .offer-desc {
+        font-size: 13px;
+        color: #64748B;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .offer-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #F1F5F9;
+      }
+      .offer-code {
+        font-size: 12px;
+        font-weight: 700;
+        color: #006666;
+        background: rgba(0,102,102,0.08);
+        padding: 4px 10px;
+        border-radius: 6px;
+        letter-spacing: 1px;
+      }
+      .offer-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #64748B;
+      }
+
+      .app-section {
+        background: #0F172A;
+        color: #FFFFFF;
+        padding: 80px 24px;
+        text-align: center;
+      }
+      .app-section h2 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .app-section p {
+        font-size: 16px;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 32px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .qr-wrap {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .qr-code {
+        width: 180px;
+        height: 180px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .qr-code canvas { width: 100%; height: 100%; }
+      .app-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .store-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 10px;
+        color: #FFF;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.15s;
+      }
+      .store-btn:hover { background: rgba(255,255,255,0.1); }
+      .store-icon { width: 18px; height: 18px; }
+
+      footer {
+        background: #FFFFFF;
+        border-top: 1px solid #E2E8F0;
+        padding: 24px;
+        text-align: center;
+        font-size: 13px;
+        color: #94A3B8;
+      }
+
+      @media (max-width: 640px) {
+        .hero h1 { font-size: 30px; }
+        .hero { padding: 60px 20px 44px; }
+        .stats-inner { gap: 24px; }
+        .section { padding: 40px 16px; }
+        .section-header h2 { font-size: 24px; }
+        .offers-grid { grid-template-columns: 1fr; }
+        .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body { background: #0B0F1A; color: #E2E8F0; }
+        .stats-bar { background: #1E293B; border-color: #334155; }
+        .stat-label { color: #94A3B8; }
+        .section-header h2 { color: #F1F5F9; }
+        .section-header p { color: #94A3B8; }
+        .category-card { background: #1E293B; border-color: #334155; }
+        .category-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .cat-count { color: #94A3B8; }
+        .offer-card { background: #1E293B; border-color: #334155; }
+        .offer-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+        .offer-company { color: #94A3B8; }
+        .offer-desc { color: #94A3B8; }
+        .offer-footer { border-top-color: #334155; }
+        .offer-rating { color: #94A3B8; }
+        footer { background: #0F172A; border-color: #334155; color: #64748B; }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">AR</button>
+
+    <div class="hero">
+      <div class="hero-content">
+        <div class="hero-badge" data-en="New deals added daily" data-ar="\u0639\u0631\u0648\u0636 \u062c\u062f\u064a\u062f\u0629 \u064a\u0648\u0645\u064a\u0627\u064b">New deals added daily</div>
+        <h1 data-en="Discover <span>Amazing Deals</span> From Top Companies" data-ar="\u0627\u0643\u062a\u0634\u0641 <span>\u0639\u0631\u0648\u0636 \u0645\u0630\u0647\u0644\u0629</span> \u0645\u0646 \u0623\u0641\u0636\u0644 \u0627\u0644\u0634\u0631\u0643\u0627\u062a">Discover <span>Amazing Deals</span> From Top Companies</h1>
+        <p data-en="Save big with exclusive offers, promo codes, and discounts from your favorite brands." data-ar="\u0648\u0641\u0631 \u0627\u0644\u0643\u062b\u064a\u0631 \u0645\u0639 \u0639\u0631\u0648\u0636 \u062d\u0635\u0631\u064a\u0629 \u0648\u0631\u0645\u0648\u0632 \u062e\u0635\u0645 \u0648\u062a\u062e\u0641\u064a\u0636\u0627\u062a \u0645\u0646 \u0639\u0644\u0627\u0645\u0627\u062a\u0643 \u0627\u0644\u0645\u0641\u0636\u0644\u0629.">Save big with exclusive offers, promo codes, and discounts from your favorite brands.</p>
+        <div class="hero-actions">
+          <a href="exps://EXPS_URL_PLACEHOLDER" class="btn btn-primary" data-en="Open in App" data-ar="\u0627\u0641\u062a\u062d \u0641\u064a \u0627\u0644\u062a\u0637\u0628\u064a\u0642">Open in App</a>
+          <a href="#offers" class="btn btn-secondary" data-en="Browse Offers" data-ar="\u062a\u0635\u0641\u062d \u0627\u0644\u0639\u0631\u0648\u0636">Browse Offers</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stats-inner">
+        <div class="stat">
+          <div class="stat-value" id="offer-count">-</div>
+          <div class="stat-label" data-en="Active Offers" data-ar="\u0639\u0631\u0648\u0636 \u0646\u0634\u0637\u0629">Active Offers</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="company-count">-</div>
+          <div class="stat-label" data-en="Companies" data-ar="\u0634\u0631\u0643\u0627\u062a">Companies</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="category-count">-</div>
+          <div class="stat-label" data-en="Categories" data-ar="\u0641\u0626\u0627\u062a">Categories</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="categories">
+      <div class="section-header">
+        <h2 data-en="Browse by Category" data-ar="\u062a\u0635\u0641\u062d \u062d\u0633\u0628 \u0627\u0644\u0641\u0626\u0629">Browse by Category</h2>
+        <p data-en="Find offers in the categories you love" data-ar="\u0627\u0639\u062b\u0631 \u0639\u0644\u0649 \u0627\u0644\u0639\u0631\u0648\u0636 \u0641\u064a \u0627\u0644\u0641\u0626\u0627\u062a \u0627\u0644\u062a\u064a \u062a\u062d\u0628\u0647\u0627">Find offers in the categories you love</p>
+      </div>
+      <div class="categories-grid" id="categories-grid"></div>
+    </div>
+
+    <div class="section" id="offers">
+      <div class="section-header">
+        <h2 data-en="Latest Offers" data-ar="\u0623\u062d\u062f\u062b \u0627\u0644\u0639\u0631\u0648\u0636">Latest Offers</h2>
+        <p data-en="Fresh deals from companies near you" data-ar="\u0635\u0641\u0642\u0627\u062a \u062c\u062f\u064a\u062f\u0629 \u0645\u0646 \u0634\u0631\u0643\u0627\u062a \u0642\u0631\u064a\u0628\u0629 \u0645\u0646\u0643">Fresh deals from companies near you</p>
+      </div>
+      <div class="offers-grid" id="offers-grid"></div>
+    </div>
+
+    <div class="app-section">
+      <h2 data-en="Get the App" data-ar="\u062d\u0645\u0651\u0644 \u0627\u0644\u062a\u0637\u0628\u064a\u0642">Get the App</h2>
+      <p data-en="Download DealSpot to never miss a deal. Save your favorites and get notified." data-ar="\u062d\u0645\u0651\u0644 DealSpot \u0644\u062a\u0644\u0627 \u062a\u0641\u0648\u062a\u0643 \u0623\u064a \u0635\u0641\u0642\u0629. \u0627\u062d\u0641\u0638 \u0645\u0641\u0636\u0644\u0627\u062a\u0643 \u0648\u0627\u062d\u0635\u0644 \u0639\u0644\u0649 \u0625\u0634\u0639\u0627\u0631\u0627\u062a.">Download DealSpot to never miss a deal. Save your favorites and get notified.</p>
+      <div class="qr-wrap">
+        <div class="qr-code" id="qr-code"></div>
+      </div>
+      <div class="app-buttons">
+        <a href="https://apps.apple.com/app/id982107779" target="_blank" class="store-btn">
+          <svg class="store-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=host.exp.exponent" target="_blank" class="store-btn">
+          <svg class="store-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+          Google Play
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2026 APP_NAME_PLACEHOLDER. All rights reserved.
+    </footer>
+
+    <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+    <script>
+      (function() {
+        const deepLink = 'exps://EXPS_URL_PLACEHOLDER';
+        const baseUrl = 'BASE_URL_PLACEHOLDER';
+        let currentLang = 'en';
+
+        const catNamesAr = {
+          'Food & Dining': '\u0637\u0639\u0627\u0645 \u0648\u0645\u0637\u0627\u0639\u0645',
+          'Technology': '\u062a\u0643\u0646\u0648\u0644\u0648\u062c\u064a\u0627',
+          'Fashion': '\u0623\u0632\u064a\u0627\u0621',
+          'Travel': '\u0633\u0641\u0631',
+          'Health & Fitness': '\u0635\u062d\u0629 \u0648\u0644\u064a\u0627\u0642\u0629',
+          'Entertainment': '\u062a\u0631\u0641\u064a\u0647',
+          'Home & Garden': '\u0645\u0646\u0632\u0644 \u0648\u062d\u062f\u0627\u0626\u0642',
+          'Beauty': '\u062c\u0645\u0627\u0644'
+        };
+
+        const offerTrAr = {
+          '1': { title: '\u0627\u0634\u062a\u0631\u0650 \u0648\u0627\u062d\u062f \u0648\u0627\u062d\u0635\u0644 \u0639\u0644\u0649 \u0627\u0644\u062b\u0627\u0646\u064a \u0645\u062c\u0627\u0646\u0627\u064b', desc: '\u0627\u0633\u062a\u0645\u062a\u0639 \u0628\u0628\u0631\u063a\u0631 \u0645\u0634\u0648\u064a \u0639\u0644\u0649 \u0627\u0644\u0644\u0647\u0628 \u0645\u0639 \u0647\u0630\u0627 \u0627\u0644\u0639\u0631\u0636 \u0627\u0644\u0645\u0630\u0647\u0644.' },
+          '2': { title: '\u062e\u0635\u0645 30% \u0639\u0644\u0649 \u062c\u0645\u064a\u0639 \u0627\u0644\u0644\u0627\u0628\u062a\u0648\u0628\u0627\u062a', desc: '\u0637\u0648\u0651\u0631 \u0623\u062c\u0647\u0632\u062a\u0643 \u0645\u0639 \u0623\u0643\u0628\u0631 \u062a\u062e\u0641\u064a\u0636\u0627\u062a \u0627\u0644\u0645\u0648\u0633\u0645.' },
+          '3': { title: '\u062a\u062e\u0641\u064a\u0636\u0627\u062a \u0645\u062c\u0645\u0648\u0639\u0629 \u0627\u0644\u0635\u064a\u0641', desc: '\u0627\u0633\u062a\u0639\u062f \u0644\u0644\u0635\u064a\u0641 \u0645\u0639 \u062e\u0635\u0645 \u064a\u0635\u0644 \u0625\u0644\u0649 40% \u0639\u0644\u0649 \u0623\u062d\u062f\u062b \u0627\u0644\u0648\u0635\u0648\u0644\u0627\u062a.' },
+          '4': { title: '\u0628\u0627\u0642\u0627\u062a \u0639\u0637\u0644\u0629 \u0646\u0647\u0627\u064a\u0629 \u0627\u0644\u0623\u0633\u0628\u0648\u0639', desc: '\u0627\u0633\u062a\u0643\u0634\u0641 \u0648\u062c\u0647\u0627\u062a \u0631\u0627\u0626\u0639\u0629 \u0645\u0639 \u0628\u0627\u0642\u0627\u062a\u0646\u0627 \u0627\u0644\u062d\u0635\u0631\u064a\u0629.' },
+          '5': { title: '3 \u0623\u0634\u0647\u0631 \u0639\u0636\u0648\u064a\u0629 \u0645\u062c\u0627\u0646\u064a\u0629', desc: '\u0627\u0646\u0636\u0645 \u0627\u0644\u0622\u0646 \u0648\u0627\u062d\u0635\u0644 \u0639\u0644\u0649 3 \u0623\u0634\u0647\u0631 \u0625\u0636\u0627\u0641\u064a\u0629.' },
+          '6': { title: '\u0628\u0627\u0642\u0629 \u0644\u064a\u0644\u0629 \u0627\u0644\u0633\u064a\u0646\u0645\u0627', desc: '\u062a\u0630\u0643\u0631\u062a\u0627\u0646 + \u0641\u0634\u0627\u0631 \u0643\u0628\u064a\u0631 + \u0645\u0634\u0631\u0648\u0628\u0627\u0646 \u0628\u0633\u0639\u0631 \u0631\u0627\u0626\u0639.' },
+          '7': { title: '\u062a\u062e\u0641\u064a\u0636\u0627\u062a \u0646\u0628\u0627\u062a\u0627\u062a \u0627\u0644\u0631\u0628\u064a\u0639', desc: '\u062c\u0645\u064a\u0639 \u0627\u0644\u0646\u0628\u0627\u062a\u0627\u062a \u0627\u0644\u0645\u0646\u0632\u0644\u064a\u0629 \u0628\u062e\u0635\u0645 20%.' },
+          '8': { title: '\u0637\u0642\u0645 \u0627\u0644\u0639\u0646\u0627\u064a\u0629 \u0628\u0627\u0644\u0628\u0634\u0631\u0629', desc: '\u0631\u0648\u062a\u064a\u0646 \u0639\u0646\u0627\u064a\u0629 \u0643\u0627\u0645\u0644 \u0628\u0633\u0639\u0631 \u0644\u0627 \u064a\u064f\u0642\u0627\u0648\u0645.' },
+          '9': { title: '\u0639\u0631\u0636 \u0639\u0634\u0627\u0621 \u0627\u0644\u0639\u0627\u0626\u0644\u0629', desc: '\u0623\u0637\u0639\u0645 \u0627\u0644\u0639\u0627\u0626\u0644\u0629 \u0628\u0623\u0643\u0645\u0644\u0647\u0627 \u0645\u0639 \u0643\u0648\u0645\u0628\u0648 \u0627\u0644\u0645\u0639\u0643\u0631\u0648\u0646\u0629.' },
+          '10': { title: '\u0628\u0627\u0642\u0629 \u0627\u0644\u0645\u0646\u0632\u0644 \u0627\u0644\u0630\u0643\u064a', desc: '\u0627\u0628\u062f\u0623 \u0645\u0639 \u0623\u062a\u0645\u062a\u0629 \u0627\u0644\u0645\u0646\u0632\u0644 \u0627\u0644\u0630\u0643\u064a.' },
+          '11': { title: '\u062a\u0635\u0641\u064a\u0629 \u0623\u062d\u0630\u064a\u0629 \u0627\u0644\u062c\u0631\u064a', desc: '\u0623\u0641\u0636\u0644 \u0627\u0644\u0639\u0644\u0627\u0645\u0627\u062a \u0627\u0644\u062a\u062c\u0627\u0631\u064a\u0629 \u0628\u0623\u0633\u0639\u0627\u0631 \u0627\u0644\u062a\u0635\u0641\u064a\u0629.' },
+          '12': { title: '\u0628\u0627\u0642\u0629 \u0627\u0644\u0633\u0628\u0627 \u0648\u0627\u0644\u0625\u0642\u0627\u0645\u0629', desc: '\u0627\u0633\u062a\u0631\u062e\u0650 \u0645\u0639 \u062c\u0644\u0633\u0629 \u0633\u0628\u0627 \u0641\u0627\u062e\u0631\u0629 \u0648\u0625\u0642\u0627\u0645\u0629 \u0644\u064a\u0644\u0629.' }
+        };
+
+        const qrCode = new QRCodeStyling({
+          width: 400, height: 400, data: deepLink,
+          dotsOptions: { color: '#006666', type: 'rounded' },
+          backgroundOptions: { color: '#ffffff' },
+          cornersSquareOptions: { type: 'extra-rounded' },
+          cornersDotOptions: { type: 'dot' },
+          qrOptions: { errorCorrectionLevel: 'H' }
+        });
+        qrCode.append(document.getElementById('qr-code'));
+
+        const catIcons = {
+          food: '🍽', tech: '💻', fashion: '👗', travel: '✈️',
+          health: '💪', entertainment: '🎬', home: '🏡', beauty: '✨'
+        };
+        const catColors = {
+          food: '#FF6B4A', tech: '#3B82F6', fashion: '#EC4899', travel: '#006666',
+          health: '#10B981', entertainment: '#8B5CF6', home: '#F59E0B', beauty: '#F472B6'
+        };
+
+        let cachedCats = [];
+        let cachedOffers = [];
+
+        function renderCategories() {
+          const grid = document.getElementById('categories-grid');
+          grid.innerHTML = '';
+          cachedCats.forEach(function(cat) {
+            var el = document.createElement('div');
+            el.className = 'category-card';
+            var name = currentLang === 'ar' && catNamesAr[cat.name] ? catNamesAr[cat.name] : cat.name;
+            var countLabel = currentLang === 'ar' ? cat.offerCount + ' \u0639\u0631\u0648\u0636' : cat.offerCount + ' offers';
+            el.innerHTML = '<div class="cat-icon" style="background:' + (catColors[cat.id]||'#64748B') + '15">' +
+              (catIcons[cat.id]||'🏷️') + '</div>' +
+              '<div class="cat-name">' + name + '</div>' +
+              '<div class="cat-count">' + countLabel + '</div>';
+            grid.appendChild(el);
+          });
+        }
+
+        function renderOffers() {
+          var grid = document.getElementById('offers-grid');
+          grid.innerHTML = '';
+          cachedOffers.forEach(function(offer) {
+            var el = document.createElement('div');
+            el.className = 'offer-card';
+            var tr = currentLang === 'ar' && offerTrAr[offer.id] ? offerTrAr[offer.id] : null;
+            var title = tr ? tr.title : offer.title;
+            var desc = tr ? tr.desc : offer.description;
+            el.innerHTML =
+              '<div class="offer-img-wrap">' +
+                '<img class="offer-img" src="' + offer.imageUrl + '" alt="' + title + '" loading="lazy" />' +
+                '<div class="offer-discount">' + offer.discount + '</div>' +
+              '</div>' +
+              '<div class="offer-body">' +
+                '<div class="offer-company-row">' +
+                  '<img class="offer-logo" src="' + offer.companyLogo + '" alt="' + offer.companyName + '" />' +
+                  '<span class="offer-company">' + offer.companyName + '</span>' +
+                '</div>' +
+                '<div class="offer-title">' + title + '</div>' +
+                '<div class="offer-desc">' + desc + '</div>' +
+                '<div class="offer-footer">' +
+                  '<span class="offer-code">' + offer.code + '</span>' +
+                  '<span class="offer-rating">⭐ ' + offer.rating + ' (' + offer.reviewCount + ')</span>' +
+                '</div>' +
+              '</div>';
+            grid.appendChild(el);
+          });
+        }
+
+        window.toggleLang = function() {
+          currentLang = currentLang === 'en' ? 'ar' : 'en';
+          document.getElementById('lang-toggle').textContent = currentLang === 'en' ? 'AR' : 'EN';
+          document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+          document.querySelectorAll('[data-' + currentLang + ']').forEach(function(el) {
+            var val = el.getAttribute('data-' + currentLang);
+            if (val) el.innerHTML = val;
+          });
+          renderCategories();
+          renderOffers();
+        };
+
+        fetch('/api/categories')
+          .then(function(r) { return r.json(); })
+          .then(function(cats) {
+            cachedCats = cats;
+            document.getElementById('category-count').textContent = cats.length;
+            renderCategories();
+          });
+
+        fetch('/api/offers')
+          .then(function(r) { return r.json(); })
+          .then(function(offers) {
+            cachedOffers = offers;
+            document.getElementById('offer-count').textContent = offers.length;
+            var companies = new Set(offers.map(function(o) { return o.companyName; }));
+            document.getElementById('company-count').textContent = companies.size;
+            renderOffers();
+          });
+      })();
+    </script>
+  </body>
+</html>
